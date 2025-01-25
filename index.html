@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pet Medical System</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 1rem;
+      }
+      h1,
+      h2,
+      h3 {
+        color: #2c3e50;
+        margin-top: 2rem;
+      }
+      pre {
+        background: #f8f9fa;
+        border-radius: 4px;
+        padding: 1rem;
+        overflow-x: auto;
+        border: 1px solid #e9ecef;
+        width: calc(100% - 2rem);
+      }
+      .keyword {
+        color: #0033b3;
+      }
+      .string {
+        color: #067d17;
+      }
+      .comment {
+        color: #8c8c8c;
+      }
+      .number {
+        color: #1750eb;
+      }
+      .type {
+        color: #000080;
+      }
+      .tip {
+        background: #e3f2fd;
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+      }
+      .warning {
+        background: #fff3e0;
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Building a Pet Medical System! 🏥</h1>
+
+    <p>
+      Our pet shop needs a proper medical system! We need to track treatments, diagnose conditions, and ensure our pets
+      get the right medical care. Let's build it step by step!
+    </p>
+
+    <h2>Medical Treatment Framework 💉</h2>
+
+    <p>First, let's create interfaces for medical treatment capabilities:</p>
+
+    <pre><span class="keyword">public interface</span> Treatable {
+    <span class="comment">// Get pet's current conditions</span>
+    List&lt;String&gt; getCurrentConditions();
+    
+    <span class="comment">// Add a new medical condition</span>
+    <span class="keyword">void</span> addCondition(String condition);
+    
+    <span class="comment">// Record that a treatment was given</span>
+    <span class="keyword">void</span> recordTreatment(String treatment, LocalDateTime time);
+    
+    <span class="comment">// Get treatment history</span>
+    List&lt;String&gt; getTreatmentHistory();
+    
+    <span class="comment">// Default method to check if pet needs medical attention</span>
+    <span class="keyword">default boolean</span> needsMedicalAttention() {
+        <span class="keyword">return</span> !getCurrentConditions().isEmpty();
+    }
+}</pre>
+
+    <div class="tip">
+      <strong>Notice:</strong> We're using a default method for needsMedicalAttention(). Classes can override this if
+      they need more specific logic! 🔧
+    </div>
+
+    <h2>Adding Diagnostic Capabilities! 🔍</h2>
+
+    <pre><span class="keyword">public interface</span> Diagnosable {
+    <span class="keyword">public enum</span> Symptom {
+        LETHARGY(<span class="string">"Low energy"</span>),
+        LOSS_OF_APPETITE(<span class="string">"Not eating"</span>),
+        FEVER(<span class="string">"High temperature"</span>),
+        DIFFICULTY_BREATHING(<span class="string">"Breathing issues"</span>);
+
+        <span class="keyword">private final</span> String description;
+        
+        Symptom(String description) {
+            <span class="keyword">this</span>.description = description;
+        }
+        
+        <span class="keyword">public</span> String getDescription() {
+            <span class="keyword">return</span> description;
+        }
+    }
+
+    <span class="comment">// Add a symptom observation</span>
+    <span class="keyword">void</span> addSymptom(Symptom symptom);
+    
+    <span class="comment">// Get current symptoms</span>
+    Set&lt;Symptom&gt; getCurrentSymptoms();
+    
+    <span class="comment">// Clear a resolved symptom</span>
+    <span class="keyword">void</span> clearSymptom(Symptom symptom);
+    
+    <span class="comment">// Default method to check if diagnosis is needed</span>
+    <span class="keyword">default boolean</span> needsDiagnosis() {
+        <span class="keyword">return</span> !getCurrentSymptoms().isEmpty();
+    }
+}</pre>
+
+    <h2>Let's Implement These! 💪</h2>
+
+    <p>Try implementing these interfaces in your Pet classes. Here's a start for Dog:</p>
+
+    <pre><span class="keyword">public class</span> Dog <span class="keyword">extends</span> Pet 
+    <span class="keyword">implements</span> Treatable, Diagnosable {
+    
+    <span class="keyword">private</span> List&lt;String&gt; conditions = <span class="keyword">new</span> ArrayList&lt;&gt;();
+    <span class="keyword">private</span> List&lt;String&gt; treatmentHistory = <span class="keyword">new</span> ArrayList&lt;&gt;();
+    <span class="keyword">private</span> Set&lt;Symptom&gt; currentSymptoms = <span class="keyword">new</span> HashSet&lt;&gt;();
+
+    <span class="comment">// TODO: Implement all required methods!
+    // Let the compiler tell you what's missing! 🔍</span>
+}</pre>
+
+    <div class="warning">
+      <strong>Try This:</strong> Add just the implements clauses first. What does the compiler tell you to add? How can
+      this help you implement everything correctly? 🤔
+    </div>
+
+    <h2>Your First Task: Medical Records</h2>
+
+    <p>Complete these steps:</p>
+    <ol>
+      <li>Implement both interfaces in the Dog class</li>
+      <li>Use the compiler to ensure you've added all required methods</li>
+      <li>Add proper tracking for conditions and symptoms</li>
+      <li>Create a method to print a medical summary</li>
+    </ol>
+
+    <pre><span class="comment">// Example testing code
+public static void</span> main(String[] args) {
+    Dog buddy = <span class="keyword">new</span> Dog(<span class="string">"Buddy"</span>, <span class="number">3</span>);
+    
+    <span class="comment">// Record some medical information</span>
+    buddy.addCondition(<span class="string">"Allergies"</span>);
+    buddy.addSymptom(Symptom.LETHARGY);
+    
+    <span class="comment">// Record treatment</span>
+    buddy.recordTreatment(<span class="string">"Allergy medication"</span>, LocalDateTime.now());
+    
+    <span class="comment">// Check medical status</span>
+    System.out.println(<span class="string">"Needs attention? "</span> + 
+        buddy.needsMedicalAttention());
+    System.out.println(<span class="string">"Needs diagnosis? "</span> + 
+        buddy.needsDiagnosis());
+}</pre>
+
+    <div class="tip">
+      <strong>Remember:</strong> Let the compiler guide your implementation! If you're not sure what methods you need,
+      the compiler will tell you! 🎯
+    </div>
+
+    <h2>Building the Diagnostic System! 🔬</h2>
+
+    <p>Now that we can track symptoms and conditions, let's create a system to handle diagnoses:</p>
+
+    <pre><span class="keyword">public class</span> DiagnosticSystem {
+    <span class="keyword">private</span> Map&lt;Pet, DiagnosticRecord&gt; records = <span class="keyword">new</span> HashMap&lt;&gt;();
+
+    <span class="keyword">public void</span> registerPet(Pet pet) {
+        <span class="comment">// Let the compiler ensure we can diagnose this pet</span>
+        <span class="keyword">if</span> (!(pet <span class="keyword">instanceof</span> Diagnosable)) {
+            <span class="keyword">throw new</span> IllegalArgumentException(
+                <span class="string">"Pet must be diagnosable!"</span>);
+        }
+        
+        records.put(pet, <span class="keyword">new</span> DiagnosticRecord());
+    }
+
+    <span class="keyword">public void</span> performCheckup(Pet pet) {
+        <span class="keyword">if</span> (!records.containsKey(pet)) {
+            registerPet(pet);
+        }
+
+        Diagnosable diagPet = (Diagnosable) pet;
+        DiagnosticRecord record = records.get(pet);
+
+        System.out.println(<span class="string">"\n🔍 Performing checkup for "</span> + pet.getName());
+        
+        <span class="comment">// Check current symptoms</span>
+        Set&lt;Symptom&gt; symptoms = diagPet.getCurrentSymptoms();
+        <span class="keyword">if</span> (!symptoms.isEmpty()) {
+            System.out.println(<span class="string">"Current symptoms:"</span>);
+            <span class="keyword">for</span> (Symptom symptom : symptoms) {
+                System.out.println(<span class="string">"- "</span> + symptom.getDescription());
+            }
+            record.addNote(<span class="string">"Observed symptoms: "</span> + symptoms);
+        }
+
+        <span class="comment">// If pet is also treatable, check conditions</span>
+        <span class="keyword">if</span> (pet <span class="keyword">instanceof</span> Treatable) {
+            Treatable treatablePet = (Treatable) pet;
+            List&lt;String&gt; conditions = treatablePet.getCurrentConditions();
+            <span class="keyword">if</span> (!conditions.isEmpty()) {
+                System.out.println(<span class="string">"Current conditions:"</span>);
+                <span class="keyword">for</span> (String condition : conditions) {
+                    System.out.println(<span class="string">"- "</span> + condition);
+                }
+            }
+        }
+    }
+}</pre>
+
+    <h2>Creating Diagnostic Records 📋</h2>
+
+    <pre><span class="keyword">public class</span> DiagnosticRecord {
+    <span class="keyword">private</span> List&lt;String&gt; notes = <span class="keyword">new</span> ArrayList&lt;&gt;();
+    <span class="keyword">private</span> LocalDateTime lastCheckup;
+    <span class="keyword">private</span> Map&lt;String, LocalDateTime&gt; diagnosedConditions = 
+        <span class="keyword">new</span> HashMap&lt;&gt;();
+
+    <span class="keyword">public void</span> addNote(String note) {
+        notes.add(LocalDateTime.now() + <span class="string">": "</span> + note);
+    }
+
+    <span class="keyword">public void</span> recordDiagnosis(String condition) {
+        diagnosedConditions.put(condition, LocalDateTime.now());
+        addNote(<span class="string">"Diagnosed with: "</span> + condition);
+    }
+
+    <span class="keyword">public void</span> updateCheckupTime() {
+        lastCheckup = LocalDateTime.now();
+    }
+
+    <span class="keyword">public boolean</span> needsCheckup() {
+        <span class="keyword">if</span> (lastCheckup == <span class="keyword">null</span>) <span class="keyword">return true</span>;
+        <span class="keyword">return</span> ChronoUnit.MONTHS.between(lastCheckup, 
+            LocalDateTime.now()) >= <span class="number">6</span>;
+    }
+}</pre>
+
+    <div class="tip">
+      <strong>Note:</strong> We're using type checking to safely handle pets that are both Diagnosable and Treatable!
+      The compiler ensures we don't make mistakes! 🛡️
+    </div>
+
+    <h2>Treatment Planning System 💊</h2>
+
+    <pre><span class="keyword">public class</span> TreatmentPlan {
+    <span class="keyword">private</span> Pet pet;
+    <span class="keyword">private</span> List&lt;String&gt; treatments = <span class="keyword">new</span> ArrayList&lt;&gt;();
+    <span class="keyword">private</span> LocalDateTime startDate;
+    <span class="keyword">private</span> LocalDateTime endDate;
+
+    <span class="keyword">public</span> TreatmentPlan(Pet pet) {
+        <span class="comment">// Ensure pet can receive treatments</span>
+        <span class="keyword">if</span> (!(pet <span class="keyword">instanceof</span> Treatable)) {
+            <span class="keyword">throw new</span> IllegalArgumentException(
+                <span class="string">"Pet must be treatable!"</span>);
+        }
+        <span class="keyword">this</span>.pet = pet;
+        <span class="keyword">this</span>.startDate = LocalDateTime.now();
+    }
+
+    <span class="keyword">public void</span> addTreatment(String treatment) {
+        treatments.add(treatment);
+    }
+
+    <span class="keyword">public void</span> executePlan() {
+        System.out.println(<span class="string">"\n💉 Executing treatment plan for "</span> + 
+            pet.getName());
+            
+        Treatable treatablePet = (Treatable) pet;
+        <span class="keyword">for</span> (String treatment : treatments) {
+            System.out.println(<span class="string">"Administering: "</span> + treatment);
+            treatablePet.recordTreatment(treatment, LocalDateTime.now());
+        }
+        
+        endDate = LocalDateTime.now();
+    }
+}</pre>
+
+    <h2>Your Tasks 📝</h2>
+
+    <ol>
+      <li>
+        Enhance DiagnosticSystem:
+        <ul>
+          <li>Add support for recurring checkups</li>
+          <li>Track treatment effectiveness</li>
+          <li>Generate health reports</li>
+        </ul>
+      </li>
+      <li>
+        Improve TreatmentPlan:
+        <ul>
+          <li>Add treatment scheduling</li>
+          <li>Track treatment completion</li>
+          <li>Handle treatment conflicts</li>
+        </ul>
+      </li>
+    </ol>
+
+    <div class="warning">
+      <strong>Remember:</strong> Use the compiler to ensure type safety! When working with Treatable and Diagnosable
+      pets, always check and cast safely! 🔍
+    </div>
+
+    <h2>Building the Veterinary Clinic! 🏥</h2>
+
+    <p>Let's create a complete system to manage our pet medical care:</p>
+
+    <pre><span class="keyword">public class</span> VeterinaryClinic {
+    <span class="keyword">private</span> DiagnosticSystem diagnostics = <span class="keyword">new</span> DiagnosticSystem();
+    <span class="keyword">private</span> Map&lt;Pet, TreatmentPlan&gt; activeTreatments = <span class="keyword">new</span> HashMap&lt;&gt;();
+    <span class="keyword">private</span> Map&lt;Pet, List&lt;String&gt;&gt; medicalHistory = <span class="keyword">new</span> HashMap&lt;&gt;();
+
+    <span class="keyword">public void</span> admitPet(Pet pet) {
+        System.out.println(<span class="string">"\n🏥 Admitting "</span> + pet.getName() + 
+                         <span class="string">" to clinic"</span>);
+        
+        <span class="comment">// Use compiler to ensure we can treat this pet</span>
+        <span class="keyword">if</span> (!(pet <span class="keyword">instanceof</span> Treatable) || 
+            !(pet <span class="keyword">instanceof</span> Diagnosable)) {
+            <span class="keyword">throw new</span> IllegalArgumentException(
+                <span class="string">"Pet must be both treatable and diagnosable!"</span>);
+        }
+
+        <span class="comment">// Initialize records</span>
+        diagnostics.registerPet(pet);
+        medicalHistory.putIfAbsent(pet, <span class="keyword">new</span> ArrayList&lt;&gt;());
+        
+        <span class="comment">// Perform initial checkup</span>
+        performCheckup(pet);
+    }
+
+    <span class="keyword">public void</span> performCheckup(Pet pet) {
+        System.out.println(<span class="string">"\n🔍 Starting checkup for "</span> + 
+                         pet.getName());
+        
+        Diagnosable diagPet = (Diagnosable) pet;
+        Set&lt;Symptom&gt; symptoms = diagPet.getCurrentSymptoms();
+        
+        <span class="keyword">if</span> (!symptoms.isEmpty()) {
+            createTreatmentPlan(pet, symptoms);
+        } <span class="keyword">else</span> {
+            System.out.println(<span class="string">"No symptoms found!"</span>);
+        }
+        
+        logMedicalEvent(pet, <span class="string">"Completed checkup"</span>);
+    }
+
+    <span class="keyword">public void</span> createTreatmentPlan(Pet pet, 
+                                        Set&lt;Symptom&gt; symptoms) {
+        TreatmentPlan plan = <span class="keyword">new</span> TreatmentPlan(pet);
+        
+        <span class="keyword">for</span> (Symptom symptom : symptoms) {
+            <span class="keyword">switch</span> (symptom) {
+                <span class="keyword">case</span> FEVER:
+                    plan.addTreatment(<span class="string">"Fever medication"</span>);
+                    <span class="keyword">break</span>;
+                <span class="keyword">case</span> LETHARGY:
+                    plan.addTreatment(<span class="string">"Rest and monitoring"</span>);
+                    <span class="keyword">break</span>;
+                <span class="keyword">case</span> LOSS_OF_APPETITE:
+                    plan.addTreatment(<span class="string">"Appetite stimulant"</span>);
+                    <span class="keyword">break</span>;
+                <span class="keyword">case</span> DIFFICULTY_BREATHING:
+                    plan.addTreatment(<span class="string">"Respiratory support"</span>);
+                    <span class="keyword">break</span>;
+            }
+        }
+        
+        activeTreatments.put(pet, plan);
+        logMedicalEvent(pet, <span class="string">"Created treatment plan"</span>);
+    }
+
+    <span class="keyword">private void</span> logMedicalEvent(Pet pet, String event) {
+        String timestamp = LocalDateTime.now().format(
+            DateTimeFormatter.ofPattern(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>));
+        medicalHistory.get(pet).add(timestamp + <span class="string">": "</span> + event);
+    }
+
+    <span class="keyword">public void</span> generateMedicalReport(Pet pet) {
+        System.out.println(<span class="string">"\n📋 Medical Report for "</span> + 
+                         pet.getName());
+        System.out.println(<span class="string">"===================="</span>);
+        
+        <span class="keyword">if</span> (pet <span class="keyword">instanceof</span> Diagnosable) {
+            Diagnosable diagPet = (Diagnosable) pet;
+            System.out.println(<span class="string">"\nCurrent Symptoms:"</span>);
+            <span class="keyword">for</span> (Symptom symptom : diagPet.getCurrentSymptoms()) {
+                System.out.println(<span class="string">"- "</span> + symptom.getDescription());
+            }
+        }
+        
+        <span class="keyword">if</span> (pet <span class="keyword">instanceof</span> Treatable) {
+            Treatable treatPet = (Treatable) pet;
+            System.out.println(<span class="string">"\nCurrent Conditions:"</span>);
+            <span class="keyword">for</span> (String condition : treatPet.getCurrentConditions()) {
+                System.out.println(<span class="string">"- "</span> + condition);
+            }
+        }
+        
+        System.out.println(<span class="string">"\nMedical History:"</span>);
+        <span class="keyword">for</span> (String event : medicalHistory.get(pet)) {
+            System.out.println(event);
+        }
+    }
+}</pre>
+
+    <h2>Testing the System! 🧪</h2>
+
+    <pre><span class="keyword">public static void</span> main(String[] args) {
+    VeterinaryClinic clinic = <span class="keyword">new</span> VeterinaryClinic();
+
+    <span class="comment">// Create a sick pet</span>
+    Dog buddy = <span class="keyword">new</span> Dog(<span class="string">"Buddy"</span>, <span class="number">3</span>);
+    buddy.addSymptom(Symptom.FEVER);
+    buddy.addSymptom(Symptom.LETHARGY);
+
+    <span class="comment">// Admit to clinic</span>
+    clinic.admitPet(buddy);
+
+    <span class="comment">// Generate report</span>
+    clinic.generateMedicalReport(buddy);
+}</pre>
+
+    <h2>Final Challenge: Enhanced Veterinary System! 🏆</h2>
+
+    <p>Extend the system with these features:</p>
+
+    <ol>
+      <li>
+        Create a Vaccination System:
+        <ul>
+          <li>Track vaccination history</li>
+          <li>Schedule upcoming vaccinations</li>
+          <li>Generate vaccination certificates</li>
+        </ul>
+      </li>
+      <li>
+        Add Emergency Care:
+        <ul>
+          <li>Priority-based treatment queue</li>
+          <li>Emergency symptom detection</li>
+          <li>Rapid response protocols</li>
+        </ul>
+      </li>
+      <li>
+        Implement Laboratory Tests:
+        <ul>
+          <li>Track test results</li>
+          <li>Analyze trends</li>
+          <li>Generate lab reports</li>
+        </ul>
+      </li>
+    </ol>
+
+    <div class="warning">
+      <strong>Implementation Tips:</strong>
+      <ul>
+        <li>Create new interfaces for each major feature</li>
+        <li>Use the compiler to ensure type safety</li>
+        <li>Consider edge cases and emergencies</li>
+        <li>Maintain clean separation of concerns</li>
+      </ul>
+    </div>
+
+    <h2>Bonus Challenge: Medical Analytics System 📊</h2>
+
+    <p>Create a system that:</p>
+    <ul>
+      <li>Analyzes treatment effectiveness</li>
+      <li>Identifies patterns in symptoms</li>
+      <li>Generates health trend reports</li>
+      <li>Predicts potential health issues</li>
+    </ul>
+
+    <div class="tip">
+      <strong>Remember:</strong> Let the compiler be your guide! Use interfaces and type checking to ensure your medical
+      system remains safe and reliable! 🛡️
+    </div>
+
+    <p>Good luck! Remember to test thoroughly and handle edge cases appropriately! 🚀</p>
+  </body>
+</html>
